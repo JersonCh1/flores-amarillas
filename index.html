@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Ti, Cinthia 💛</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(to bottom, #0f0f1a, #1a1a2e);
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            margin: 0;
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            touch-action: manipulation;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 100%;
+            padding: 15px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .message {
+    background-color: rgba(30, 30, 46, 0.65); /* Reducido de 0.85 a 0.65 para más transparencia */
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* También reducido el sombreado */
+    backdrop-filter: blur(1px); /* Reducido el desenfoque de 10px a 5px */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+    transform: translateY(0);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    max-width: 100%;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+        
+        .message:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        h1 {
+            color: #ffec5f;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.7em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(255, 236, 95, 0.6);
+            animation: glow 2s infinite alternate;
+            line-height: 1.2;
+        }
+        
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px rgba(255, 236, 95, 0.5); }
+            100% { text-shadow: 0 0 20px rgba(255, 236, 95, 0.8), 0 0 30px rgba(255, 236, 95, 0.6); }
+        }
+        
+        p {
+            font-size: 1.2em;
+            color: #f0f0f0;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            padding: 0 10px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        .heart {
+            color: #ff5c8a;
+            font-size: 1.5em;
+            display: inline-block;
+            animation: beat 1s infinite alternate;
+            filter: drop-shadow(0 0 5px rgba(255, 92, 138, 0.7));
+            margin: 10px 0;
+        }
+        
+        @keyframes beat {
+            from { transform: scale(1); }
+            to { transform: scale(1.3); }
+        }
+        
+        .date {
+            font-size: 1.3em;
+            color: #ffd700;
+            margin: 20px 0;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+            padding: 5px 15px;
+            display: inline-block;
+            border-radius: 20px;
+            background: rgba(255, 215, 0, 0.15);
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ffc800, #ffee00);
+            color: #121212;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+            background: linear-gradient(45deg, #ffee00, #ffc800);
+        }
+        
+        .btn-active {
+            transform: scale(0.95) translateY(-2px) !important;
+            box-shadow: 0 3px 10px rgba(255, 215, 0, 0.4) !important;
+            transition: all 0.1s ease;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(to bottom, transparent, rgba(20, 70, 30, 0.8));
+            z-index: 1;
+        }
+        .flower {
+            position: absolute;
+            bottom: 0;
+            opacity: 0;
+            z-index: 5;
+            transform-origin: bottom center;
+            animation-duration: 4s;
+            animation-fill-mode: forwards;
+        }
+        
+        /* Movimiento de la flor completa */
+        @keyframes flowerWholeMovement {
+            0% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(calc(var(--wind-x) * 1px)) rotate(calc(var(--wind-r) * 0.5deg)); }
+            50% { transform: translateX(calc(var(--wind-x) * 0.5px)) rotate(calc(var(--wind-r) * 1deg)); }
+            75% { transform: translateX(calc(var(--wind-x) * -0.5px)) rotate(calc(var(--wind-r) * -0.5deg)); }
+            100% { transform: translateX(0) rotate(0deg); }
+        }
+        
+        /* Tallos curvados y con movimiento */
+        .flower-stem {
+            position: absolute;
+            width: 5px;
+            height: 100px;
+            background: linear-gradient(to bottom, #2e8b57, #3cb371);
+            bottom: 0;
+            left: 50%;
+            transform-origin: bottom center;
+            transform: translateX(-50%) rotate(calc(var(--stem-angle) * 1deg));
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(60, 179, 113, 0.4);
+            border-radius: 50% 50% 0 0 / 20%;
+        }
+        
+        .flower-head {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .petal {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background: radial-gradient(circle at 30%, #ffee00, #ffd700);
+            border-radius: 50% 50% 50% 0;
+            top: 50%;
+            left: 50%;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            filter: brightness(1.2);
+            animation: petalFlutter 3s ease-in-out infinite alternate;
+            animation-delay: calc(var(--petal-delay) * 0.5s);
+        }
+        
+        @keyframes petalFlutter {
+            0% { transform: translate(-50%, -50%) rotate(calc(var(--petal-rotate-base) * 1deg)) translateX(calc(var(--petal-distance) * 1px)) rotate(45deg) scale(1); }
+            50% { transform: translate(-50%, -50%) rotate(calc(var(--petal-rotate-base) * 1deg)) translateX(calc(var(--petal-distance) * 1px)) rotate(45deg) scale(1.05); }
+            100% { transform: translate(-50%, -50%) rotate(calc(var(--petal-rotate-base) * 1deg)) translateX(calc(var(--petal-distance) * 1px)) rotate(45deg) scale(0.95); }
+        }
+        .petal:nth-child(1) { --petal-rotate-base: 0; --petal-distance: 25; --petal-delay: 0; }
+        .petal:nth-child(2) { --petal-rotate-base: 45; --petal-distance: 25; --petal-delay: 0.2; }
+        .petal:nth-child(3) { --petal-rotate-base: 90; --petal-distance: 25; --petal-delay: 0.4; }
+        .petal:nth-child(4) { --petal-rotate-base: 135; --petal-distance: 25; --petal-delay: 0.6; }
+        .petal:nth-child(5) { --petal-rotate-base: 180; --petal-distance: 25; --petal-delay: 0.8; }
+        .petal:nth-child(6) { --petal-rotate-base: 225; --petal-distance: 25; --petal-delay: 1.0; }
+        .petal:nth-child(7) { --petal-rotate-base: 270; --petal-distance: 25; --petal-delay: 1.2; }
+        .petal:nth-child(8) { --petal-rotate-base: 315; --petal-distance: 25; --petal-delay: 1.4; }
+        
+        .flower-center {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle, #8B4513, #654321);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            box-shadow: 0 0 5px rgba(139, 69, 19, 0.5);
+        }
+        
+        .center-detail {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: 
+                radial-gradient(circle at 30% 30%, transparent 10%, rgba(0,0,0,0.2) 10%, rgba(0,0,0,0.2) 13%, transparent 13%),
+                radial-gradient(circle at 70% 30%, transparent 10%, rgba(0,0,0,0.2) 10%, rgba(0,0,0,0.2) 13%, transparent 13%),
+                radial-gradient(circle at 30% 70%, transparent 10%, rgba(0,0,0,0.2) 10%, rgba(0,0,0,0.2) 13%, transparent 13%),
+                radial-gradient(circle at 70% 70%, transparent 10%, rgba(0,0,0,0.2) 10%, rgba(0,0,0,0.2) 13%, transparent 13%),
+                radial-gradient(circle at 50% 50%, transparent 35%, rgba(0,0,0,0.2) 35%, rgba(0,0,0,0.2) 40%, transparent 40%);
+        }
+        
+        .leaf {
+            position: absolute;
+            width: 25px;
+            height: 15px;
+            background: linear-gradient(to right, #32CD32, #7CFC00);
+            border-radius: 50% 50% 0 50%;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(50, 205, 50, 0.5);
+            filter: brightness(1.1);
+            animation: leafFlutter 6s ease-in-out infinite alternate;
+        }
+        
+        @keyframes leafFlutter {
+            0% { transform: rotate(calc(var(--leaf-angle) * 1deg)); }
+            50% { transform: rotate(calc((var(--leaf-angle) + 5) * 1deg)); }
+            100% { transform: rotate(calc((var(--leaf-angle) - 5) * 1deg)); }
+        }
+        
+        .leaf.left {
+            bottom: 30px;
+            left: -10px;
+            --leaf-angle: -40;
+        }
+        
+        .leaf.right {
+            bottom: 50px;
+            right: -10px;
+            --leaf-angle: 40;
+            transform: scaleX(-1) rotate(40deg);
+        }
+        @keyframes bloomModern {
+            0% { transform: scale(0.1) translateY(50px); opacity: 0; }
+            20% { transform: scale(0.4) translateY(30px); opacity: 0.4; }
+            60% { transform: scale(0.8) translateY(10px); opacity: 0.8; }
+            80% { transform: scale(1.05) translateY(0); opacity: 1; }
+            90% { transform: scale(0.95) translateY(0); opacity: 1; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        
+        .firefly {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #FFFF80;
+            border-radius: 50%;
+            z-index: 4;
+            filter: blur(1px);
+            box-shadow: 0 0 10px 2px rgba(255, 255, 128, 0.8);
+            animation: float 20s linear infinite, flicker 3s infinite alternate;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(50px, -25px); }
+            50% { transform: translate(25px, -50px); }
+            75% { transform: translate(-25px, -25px); }
+            100% { transform: translate(0, 0); }
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; box-shadow: 0 0 10px 2px rgba(255, 255, 128, 0.8); }
+            50% { opacity: 0.3; box-shadow: 0 0 5px 1px rgba(255, 255, 128, 0.4); }
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: #FFF;
+            border-radius: 50%;
+            animation: twinkle 5s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        .falling-petal {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle at 30%, #fff200, #ffd700);
+            border-radius: 50% 0 50% 50%;
+            opacity: 0.8;
+            z-index: 3;
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+            animation: fall 10s linear infinite;
+        }
+        
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 0.8; }
+            50% { transform: translateY(50vh) rotate(180deg) translateX(calc(var(--wind-factor) * 1px)); opacity: 0.6; }
+            100% { transform: translateY(100vh) rotate(360deg) translateX(calc(var(--wind-factor) * 2px)); opacity: 0; }
+        }
+        /* Botón de música más visible */
+        .music-control {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            z-index: 100;
+            background: rgba(255, 220, 0, 0.8);
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.6);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            color: #121212;
+            font-size: 1.5em;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+        
+        .music-control:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.8);
+        }
+        
+        /* Palabra radiante con brillo especial */
+        .radiante {
+            color: #ffee00;
+            text-shadow: 0 0 10px rgba(255, 238, 0, 0.8);
+            animation: brilloRadiante 2s infinite alternate;
+            font-weight: bold;
+        }
+        
+        @keyframes brilloRadiante {
+            0% { text-shadow: 0 0 5px rgba(255, 238, 0, 0.5); }
+            100% { text-shadow: 0 0 15px rgba(255, 238, 0, 1); }
+        }
+        
+        /* Palabra fuerte con estilo más grande */
+        .fuerte {
+            color: #ff9900;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Palabra brillante con efecto de brillo */
+        .brillante {
+            color: #3af5ff;
+            text-shadow: 0 0 10px rgba(58, 245, 255, 0.8);
+            font-weight: bold;
+        }
+        
+        /* Orientación de pantalla */
+        @media screen and (orientation: landscape) and (max-height: 500px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 10px;
+            }
+            
+            p {
+                font-size: 0.9em;
+                margin-bottom: 10px;
+            }
+            
+            .message {
+                padding: 12px;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+            
+            .btn {
+                padding: 10px 25px;
+                font-size: 1em;
+                margin-top: 10px;
+            }
+            
+            .date {
+                font-size: 1em;
+                margin-top: 10px;
+            }
+        }
+        /* Para pantallas muy pequeñas */
+        @media (max-width: 350px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            p {
+                font-size: 1em;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+            
+            .flower-head {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .petal {
+                width: 25px;
+                height: 25px;
+            }
+            
+            .flower-center {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .music-control {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <div class="message">
+            <h1>Para Ti, Cinthia 💛</h1>
+            <p>Desde aquel día que te vi afuera del mall y fuimos por un con chocolate caliente, has sido la luz que guía mi camino.</p>
+            
+            <p>Cada flor amarilla me recuerda a ti: <br>
+            <span class="radiante">Radiante</span> como tu sonrisa, <br>
+            <span class="fuerte">Fuerte</span> como tu espíritu, <br>
+            <span class="brillante">Brillante</span> como tu inteligencia.</p>
+            
+            <p>Cada pétalo guarda nuestros momentos: <br>
+            Viaje a la playa, tarde de cine, <br>
+            Noches de fiesta y amaneceres juntos, etc.</p>
+            
+            <p>Incluso en días grises como aquel del accidente de tu piecito, <br>
+            Tu fortaleza ilumina todo a tu alrededor.</p>
+            
+            <div class="heart">❤️</div>
+            
+            <p class="date">21 de Marzo - Día de las Flores Amarillas</p>
+            <button class="btn" id="moreFlowers">Regalar más flores</button>
+        </div>
+    </div>
+    
+    <div class="ground"></div>
+    <div class="music-control" id="musicToggle">🎵</div>
+    
+    <audio id="bgMusic" loop>
+        <source src="mi-musica.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+        // Iniciar música con interacción del usuario
+        const musicToggle = document.getElementById('musicToggle');
+        const bgMusic = document.getElementById('bgMusic');
+        const moreFlowersBtn = document.getElementById('moreFlowers');
+        let isMusicPlaying = false;
+        
+        musicToggle.addEventListener('click', toggleMusic);
+        
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicToggle.textContent = '🔇';
+                musicToggle.style.background = 'rgba(200, 200, 200, 0.8)';
+                isMusicPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    musicToggle.textContent = '🎵';
+                    musicToggle.style.background = 'rgba(255, 220, 0, 0.8)';
+                    isMusicPlaying = true;
+                }).catch(error => {
+                    alert("Para reproducir música, asegúrate de tener un archivo mp3 llamado 'mi-musica.mp3' en la misma carpeta");
+                });
+            }
+        }
+        
+        // Crear una flor moderna con movimiento realista
+        function createFlowerElement() {
+            // Contenedor principal
+            const flower = document.createElement('div');
+            flower.classList.add('flower');
+            
+            // Variables para el movimiento de toda la flor
+            const windX = Math.random() * 10 - 5; // Valor entre -5 y 5
+            const windR = Math.random() * 6 - 3;  // Valor entre -3 y 3
+            flower.style.setProperty('--wind-x', windX);
+            flower.style.setProperty('--wind-r', windR);
+            
+            // Aplicar la animación de movimiento a toda la flor
+            const animDuration = 5 + Math.random() * 5; // Entre 5 y 10 segundos
+            flower.style.animation = `flowerWholeMovement ${animDuration}s ease-in-out infinite alternate, bloomModern ${3 + Math.random() * 2}s ease-in-out forwards`;
+            
+            // Generar ángulos aleatorios para tallos curvados
+            const stemAngle = Math.random() * 6 - 3;
+            
+            // Tallo
+            const stem = document.createElement('div');
+            stem.classList.add('flower-stem');
+            stem.style.setProperty('--stem-angle', stemAngle);
+            flower.appendChild(stem);
+            
+            // Tamaño aleatorio para el tallo (altura)
+            const stemHeight = 60 + Math.random() * 80; // Entre 60px y 140px para móviles
+            stem.style.height = `${stemHeight}px`;
+            
+            // Hoja izquierda
+            const leafLeft = document.createElement('div');
+            leafLeft.classList.add('leaf', 'left');
+            flower.appendChild(leafLeft);
+            
+            // Hoja derecha
+            const leafRight = document.createElement('div');
+            leafRight.classList.add('leaf', 'right');
+            flower.appendChild(leafRight);
+            
+            // Cabeza de la flor
+            const head = document.createElement('div');
+            head.classList.add('flower-head');
+            
+            // Ajustar la posición de la cabeza según la altura del tallo
+            head.style.bottom = `${stemHeight - 20}px`;
+            
+            // Tamaño aleatorio para la cabeza de la flor
+            const headSize = 40 + Math.random() * 50; // Entre 40px y 90px para móviles
+            head.style.width = `${headSize}px`;
+            head.style.height = `${headSize}px`;
+            
+            // Pétalos
+            for (let i = 0; i < 8; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                
+                // Ajustar tamaño de pétalos según el tamaño de la cabeza
+                const petalSize = headSize * 0.45;
+                petal.style.width = `${petalSize}px`;
+                petal.style.height = `${petalSize}px`;
+                
+                // Pequeña variación en la posición de los pétalos para hacerlos más naturales
+                const petalOffset = Math.random() * 3 - 1.5;
+                petal.style.setProperty('--petal-offset', petalOffset);
+                head.appendChild(petal);
+            }
+            
+            // Centro de la flor
+            const center = document.createElement('div');
+            center.classList.add('flower-center');
+            
+            // Ajustar tamaño del centro según tamaño de la cabeza
+            center.style.width = `${headSize * 0.4}px`;
+            center.style.height = `${headSize * 0.4}px`;
+            
+            head.appendChild(center);
+            
+            // Detalles del centro
+            const centerDetail = document.createElement('div');
+            centerDetail.classList.add('center-detail');
+            center.appendChild(centerDetail);
+            
+            flower.appendChild(head);
+            
+            return flower;
+        }
+        
+        // Crear luciérnagas
+        function createFirefly() {
+            const firefly = document.createElement('div');
+            firefly.classList.add('firefly');
+            
+            // Posición aleatoria
+            firefly.style.left = Math.random() * window.innerWidth + 'px';
+            firefly.style.top = Math.random() * window.innerHeight + 'px';
+            
+            // Animación personalizada
+            firefly.style.animationDelay = Math.random() * 10 + 's';
+            
+            document.body.appendChild(firefly);
+            
+            // Eliminar después de un tiempo
+            setTimeout(() => {
+                firefly.remove();
+                createFirefly();
+            }, 30000);
+        }
+        
+        // Crear estrellas en el fondo
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            
+            // Menos estrellas para mejorar el rendimiento en móviles
+            const starCount = window.innerWidth < 600 ? 50 : 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Posición aleatoria
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                
+                // Tamaño aleatorio
+                const size = Math.random() * 2 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                // Brillo aleatorio
+                star.style.opacity = Math.random() * 0.8 + 0.2;
+                
+                // Animación personalizada
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.animationDuration = Math.random() * 3 + 2 + 's';
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Posición aleatoria en los bordes de la pantalla
+        function getRandomEdgePosition() {
+            const edge = Math.floor(Math.random() * 4); // 0: bottom, 1: left, 2: right, 3: bottom-left, 4: bottom-right
+            const position = {};
+            
+            // Siempre desde abajo para las flores
+            position.bottom = 0;
+            
+            // Posición horizontal
+            if (edge === 1) { // Lado izquierdo
+                position.left = Math.random() * (window.innerWidth * 0.3);
+            } else if (edge === 2) { // Lado derecho
+                position.left = window.innerWidth - (Math.random() * (window.innerWidth * 0.3));
+            } else if (edge === 3) { // Esquina inferior izquierda
+                position.left = Math.random() * (window.innerWidth * 0.3);
+            } else if (edge === 4) { // Esquina inferior derecha
+                position.left = window.innerWidth - (Math.random() * (window.innerWidth * 0.3));
+            } else { // Por defecto, posición aleatoria en la parte inferior
+                position.left = Math.random() * window.innerWidth;
+            }
+            
+            return position;
+        }
+        // Creación inicial
+        window.addEventListener('DOMContentLoaded', () => {
+            // Crear estrellas
+            createStars();
+            
+            // Destacar el botón de música con animación extra
+            setTimeout(() => {
+                musicToggle.style.animation = "pulse 2s infinite";
+            }, 2000);
+            
+            // Crear flores iniciales - menos para móviles
+            setTimeout(() => {
+                const flowerCount = window.innerWidth < 600 ? 8 : 12;
+                for (let i = 0; i < flowerCount; i++) {
+                    setTimeout(() => createFlower(), i * 300);
+                }
+                
+                // Crear luciérnagas
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => createFirefly(), i * 1000);
+                }
+                
+                // Crear pétalos cayendo
+                createPetals();
+            }, 500);
+        });
+        
+        // Botón para añadir más flores
+        moreFlowersBtn.addEventListener('click', () => {
+            // Feedback visual al botón
+            moreFlowersBtn.classList.add('btn-active');
+            
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => createFlower(), i * 200);
+            }
+            
+            // Crear más luciérnagas
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => createFirefly(), i * 300);
+            }
+            
+            // Crear más pétalos cayendo
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const petal = document.createElement('div');
+                    petal.classList.add('falling-petal');
+                    petal.style.left = Math.random() * window.innerWidth + 'px';
+                    petal.style.animationDuration = 8 + Math.random() * 10 + 's';
+                    petal.style.setProperty('--wind-factor', Math.random() * 100 - 50);
+                    
+                    // Rotación aleatoria
+                    petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    // Tamaño aleatorio para los pétalos
+                    const petalSize = 10 + Math.random() * 10;
+                    petal.style.width = `${petalSize}px`;
+                    petal.style.height = `${petalSize}px`;
+                    
+                    document.body.appendChild(petal);
+                    
+                    // Eliminar pétalos después de la animación
+                    setTimeout(() => petal.remove(), 10000);
+                }, i * 200);
+            }
+            
+            // Intenta reproducir música si no está sonando
+            if (!isMusicPlaying) {
+                toggleMusic();
+            }
+            
+            // Quitar el efecto del botón después de un tiempo
+            setTimeout(() => {
+                moreFlowersBtn.classList.remove('btn-active');
+            }, 300);
+        });
+        
+        function createFlower() {
+            const flower = createFlowerElement();
+            
+            // Obtener posición aleatoria (preferiblemente en los bordes)
+            const position = getRandomEdgePosition();
+            flower.style.left = position.left + 'px';
+            
+            // Tamaño aleatorio con mayor variación
+            const sizeVariation = 0.5 + Math.random() * 0.8; // Entre 0.5 y 1.3
+            flower.style.transform = `scale(${sizeVariation})`;
+            
+            // Asegurarse de que las flores de diferentes tamaños tengan animación coherente
+            document.body.appendChild(flower);
+        }
+        
+        function createPetals() {
+            setInterval(() => {
+                const petal = document.createElement('div');
+                petal.classList.add('falling-petal');
+                petal.style.left = Math.random() * window.innerWidth + 'px';
+                petal.style.animationDuration = 8 + Math.random() * 10 + 's';
+                petal.style.setProperty('--wind-factor', Math.random() * 100 - 50);
+                
+                // Rotación aleatoria
+                petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                // Tamaño aleatorio
+                const petalSize = 10 + Math.random() * 10;
+                petal.style.width = `${petalSize}px`;
+                petal.style.height = `${petalSize}px`;
+                
+                document.body.appendChild(petal);
+                
+                // Eliminar pétalos después de la animación
+                setTimeout(() => petal.remove(), 10000);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
+
+    
